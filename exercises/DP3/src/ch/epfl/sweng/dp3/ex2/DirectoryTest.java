@@ -2,6 +2,11 @@ package ch.epfl.sweng.dp3.ex2;
 
 import org.junit.Test;
 
+import java.util.Arrays;
+import java.util.List;
+
+import static org.junit.Assert.assertEquals;
+
 public class DirectoryTest {
 
   @Test
@@ -15,15 +20,11 @@ public class DirectoryTest {
     directory.addFile(f2);
     directory.addFile(f3);
 
-    // TODO: uncomment the following lines and introduce code as needed to make the assertions
-    // succeed
-    //
-    //        DirectorySort fileNameSort = new FileNameSort();
-    //        DirectorySort fileSizeSort = new FileSizeSort();
-    //
-    //        List<File> expectedNameSortedList = Arrays.asList(f2, f1, f3);
-    //        List<File> expectedSizeSortedList = Arrays.asList(f3, f2, f1);
-    //        assertEquals(expectedNameSortedList, directory.sort(fileNameSort));
-    //        assertEquals(expectedSizeSortedList, directory.sort(fileSizeSort));
+    DirectorySort fileNameSort = new FileNameSort();
+    DirectorySort fileSizeSort = new FileSizeSort();
+    List<File> expectedNameSortedList = Arrays.asList(f2, f1, f3);
+    List<File> expectedSizeSortedList = Arrays.asList(f3, f2, f1);
+    assertEquals(expectedNameSortedList, directory.sort(fileNameSort));
+    assertEquals(expectedSizeSortedList, directory.sort(fileSizeSort));
   }
 }

@@ -13,4 +13,8 @@ public class Directory {
   public void addFile(File file) {
     files.add(file);
   }
+
+  public List<File> sort(DirectorySort directorySort){
+    return directorySort.sort(files);
+  }
 }
