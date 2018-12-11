@@ -1,11 +1,5 @@
-Software Engineering Midterm Exam (Fall 2017)
+Software Engineering midterm exams (with solutions)
 
-- [Exam statement](Midterm.md)
-- [Solutions to Practice questions](Practice-Questions-Solution.md)
-- [Solutions to Theory questions](Theory-Questions-Solution.md)
+* [2018](2018/README.md)
+* [2017](2017/README.md)
 
-The scores on this exam were distributed as follows:
-
-![Score distribution: Practice](distro-practice.png "Score distribution: Practice")
-![Score distribution: Theory](distro-theory.png "Score distribution: Theory")
-![Score distribution: Total](distro-total.png "Score distribution: Total")
