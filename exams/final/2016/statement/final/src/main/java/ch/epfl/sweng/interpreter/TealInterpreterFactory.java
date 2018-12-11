@@ -25,18 +25,7 @@ public final class TealInterpreterFactory {
             TealNode body = function.body;
             //null or parameter name
             String parameter = function.parameter;
-            if(parameter != null){
-                return visit(library, body, parameter, argument);
-            }
-            else{
-                if(body.getClass() == TealPrimitiveNode.class){
-                    TealPrimitiveNodeVisitor v = new TealPrimitiveNodeVisitor();
-                    return body.acceptVisitor(v);
-                }
-                else{
-                    throw new TealInterpretationException("Invalid");
-                }
-            }
+            return visit(library, body, parameter, argument);
         };
     }
 
@@ -107,7 +96,7 @@ public final class TealInterpreterFactory {
     public static TealInterpreter cachedInterpreter(final TealLibrary library) {
         HashMap<String, CacheNode> cache = new HashMap<>();
         for(String functName : library.functions.keySet()){
-            CacheNode cacheNode = new CacheNode(functName, new HashMap<>());
+            CacheNode cacheNode = new CacheNode(new HashMap<>());
             cache.put(functName, cacheNode);
         }
         return (functionName, argument) -> {
