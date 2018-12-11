@@ -1,5 +1,6 @@
 package ch.epfl.sweng.tests.parser;
 
+import ch.epfl.sweng.nodes.*;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeDiagnosingMatcher;
@@ -10,10 +11,9 @@ import java.lang.reflect.InvocationTargetException;
 
 import ch.epfl.sweng.TealFunction;
 import ch.epfl.sweng.TealLibrary;
-import ch.epfl.sweng.nodes.TealNode;
-import ch.epfl.sweng.nodes.TealVariableNode;
 import ch.epfl.sweng.parser.TealParseException;
 import ch.epfl.sweng.parser.TealParser;
+import org.junit.internal.runners.statements.ExpectException;
 
 import static org.hamcrest.Matchers.hasSize;
 import static org.junit.Assert.assertThat;
@@ -36,6 +36,48 @@ public final class TealParserTests {
     }
 
     // TODO: Add your own tests
+    @Test (expected = IllegalArgumentException.class)
+    public void parseNull() throws TealParseException {
+        TealParser.parse(null);
+    }
+
+    @Test
+    public void noFunctions() throws TealParseException{
+        final TealLibrary library = TealParser.parse("");
+        assertThat(library.functions.entrySet(), hasSize(0));
+    }
+
+    @Test (expected = TealParseException.class)
+    public void existingFunctionName() throws TealParseException{
+        TealParser.parse("f(n): n + 1 \n f(n): n + 2");
+    }
+
+    @Test (expected = TealParseException.class)
+    public void leftoverInput() throws TealParseException{
+        TealParser.parse("f(n): n + 1 \n g(n): n + 2fgdjhwe");
+    }
+
+    @Test (expected = TealParseException.class)
+    public void invalidFunctionCalled() throws TealParseException{
+        TealParser.parse("g(n): !3(2 + n)");
+    }
+
+    @Test (expected = TealParseException.class)
+    public void badInt() throws TealParseException{
+        TealParser.parse("g(): +3");
+    }
+
+    @Test
+    public void parseFunctionCall() throws TealParseException{
+        final TealLibrary library = TealParser.parse("g(n): !f(2 + n)");
+        assertThat(library.functions.entrySet(), hasSize(1));
+        assertThat(library, hasFunction("g", "n",
+                new TealFunctionCallNode("f",
+                        new TealAdditionNode(
+                                new TealPrimitiveNode(2),
+                                new TealVariableNode("n")))));
+    }
+
     @Test
     public void identityFunction() throws TealParseException {
         final TealLibrary library = TealParser.parse("f(n): n");
