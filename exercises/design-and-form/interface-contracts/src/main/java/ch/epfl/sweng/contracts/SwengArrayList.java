@@ -11,10 +11,10 @@ public class SwengArrayList implements SwengVector {
     private int nextFreeSlot;
     private int[] elements;
 
+    @Ensures("old(toList()).stream().allMatch(this::contains)")
     private void expandArray() {
         capacity *= 2;
         elements = Arrays.copyOf(elements, capacity);
-        nextFreeSlot--;
     }
 
     public SwengArrayList(int initial_capacity) {
@@ -24,7 +24,7 @@ public class SwengArrayList implements SwengVector {
     }
 
     public boolean contains(int element) {
-        for (int i = 0; i < nextFreeSlot; ++i) {
+        for (int i = 0; i < nextFreeSlot; i++) {
             if (elements[i] == element) return true;
         }
         return false;
@@ -36,7 +36,7 @@ public class SwengArrayList implements SwengVector {
 
     public List<Integer> toList() {
         List<Integer> list = new ArrayList<Integer>(nextFreeSlot);
-        for (int i = 0; i < nextFreeSlot; ++i) {
+        for (int i = 0; i < nextFreeSlot; i++) {
             list.add(elements[i]);
         }
         return list;
@@ -46,6 +46,6 @@ public class SwengArrayList implements SwengVector {
         if (nextFreeSlot == capacity) {
             expandArray();
         }
-        elements[nextFreeSlot++] = 0;
+        elements[nextFreeSlot++] = element;
     }
 }

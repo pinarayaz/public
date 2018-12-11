@@ -11,8 +11,8 @@ import ch.epfl.sweng.dp3.ex5.view.View;
  */
 public class Controller {
 
-  private View view = null;
-  private final Model model = null;
+  private View view;
+  private final Model model;
 
   /**
    * Creates the controller.
@@ -20,7 +20,7 @@ public class Controller {
    * @param model given model which the controller is going to interact with.
    */
   public Controller(Model model) {
-    // TODO
+    this.model = model;
   }
 
   /**
@@ -29,7 +29,7 @@ public class Controller {
    * @param view given view which the controller is going to interact with.
    */
   public void setView(View view) {
-    // TODO
+    this.view = view;
   }
 
   /**

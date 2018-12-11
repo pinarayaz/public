@@ -13,43 +13,36 @@ public class Loan{
     CapitalStrategy capitalStrategy;
     double commitment;
     double outstanding;
-    int customerRating;
     Date maturity;
     Date expiry;
     int riskTaking;
 
-    public Loan(double commitment, int riskTaking, Date maturity){
-        this(commitment, 0.00, riskTaking, maturity, null);
+    public static Loan newTermLoan(double commitment, int riskTaking, Date maturity){
+        CapitalStrategy capitalStrategy = new CapitalStrategyTermLoan();
+        return new Loan(capitalStrategy, commitment, 0.0, riskTaking, maturity, null);
     }
 
-    public Loan(double commitment, int riskTaking, Date maturity, Date expiry){
-        this(commitment, 0.00, riskTaking, maturity, expiry);
+    public static Loan newRevolverLoan(double commitment, int riskTaking, Date maturity, Date expiry){
+        CapitalStrategy capitalStrategy = new CapitalStrategyRevolver();
+        return new Loan(capitalStrategy, commitment, 0.0, riskTaking, maturity, expiry);
     }
 
-    public Loan(double commitment, double outstanding, int customerRating, Date maturity, Date expiry){
-        this(null, commitment, outstanding, customerRating, maturity, expiry);
+    public static Loan newRevolverLoan(double commitment, double outstanding, int customerRating, Date maturity, Date expiry){
+        CapitalStrategy capitalStrategy = new CapitalStrategyRevolver();
+        return new Loan(capitalStrategy, commitment, outstanding, customerRating, maturity, expiry);
     }
 
-    public Loan(CapitalStrategy capitalStrategy, double commitment, int riskTaking, Date maturity, Date expiry){
-        this(capitalStrategy, commitment, 0.00, riskTaking, maturity, expiry);
+    public static Loan newRCTLLoan(CapitalStrategy capitalStrategy, double commitment, int riskTaking, Date maturity, Date expiry){
+        return new Loan(capitalStrategy, commitment, 0.00, riskTaking, maturity, expiry);
     }
 
-    public Loan(CapitalStrategy capitalStrategy, double commitment, double outstanding, int riskTaking, Date maturity, Date expiry){
+    private Loan(CapitalStrategy capitalStrategy, double commitment, double outstanding, int riskTaking, Date maturity, Date expiry){
         this.commitment = commitment;
         this.outstanding = outstanding;
         this.riskTaking = riskTaking;
         this.maturity = maturity;
         this.expiry = expiry;
         this.capitalStrategy = capitalStrategy;
-
-        if (capitalStrategy == null){
-            if(expiry == null)
-                this.capitalStrategy = new CapitalStrategyTermLoan();
-            else if (maturity == null)
-                this.capitalStrategy = new CapitalStrategyRevolver();
-            else
-                this.capitalStrategy = new CapitalStrategyRCTL();
-        }
     }
 }
 

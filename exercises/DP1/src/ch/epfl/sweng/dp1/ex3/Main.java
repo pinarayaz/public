@@ -8,16 +8,13 @@ public class Main {
         // Create a datastore
         DataStore dataStore = new DataStore();
         // Connect the dataStore and the screens
-
+        dataStore.addObserver(screen);
+        dataStore.addObserver(phone);
         // Update data in the dataStore
         String data = "Some data";
         dataStore.setData(data);
-        dataStore.updateScreen(screen);
-        dataStore.updatePhone(phone);
 
         data = "New data";
         dataStore.setData(data);
-        dataStore.updateScreen(screen);
-        dataStore.updatePhone(phone);
     }
 }

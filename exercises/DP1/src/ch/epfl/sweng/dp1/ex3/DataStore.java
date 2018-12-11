@@ -1,22 +1,28 @@
 package ch.epfl.sweng.dp1.ex3;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class DataStore {
     private String data;
+    ArrayList<Observer> observers = new ArrayList<>();
 
     public String getData() {
         return data;
     }
 
+    public void addObserver(Observer o){
+        observers.add(o);
+    }
+
     public void setData(String data) {
         this.data = data;
-        // Data has changed. Update the UI
+        updateObservers();
     }
 
-    protected void updatePhone(Phone phone) {
-        phone.printToPhone(this.data);
-    }
-
-    protected void updateScreen(Screen screen) {
-        screen.display(this.data);
+    private void updateObservers(){
+        for(Observer o: observers){
+            o.update(data);
+        }
     }
 }
