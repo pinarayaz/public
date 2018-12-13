@@ -7,5 +7,7 @@ public class Army {
     public Army(House house){
         Member warden = house.createMember();
         warden.sayMotto();
+        Bastard bastard = house.createBastard();
+        bastard.sayLastName();
     }
 }

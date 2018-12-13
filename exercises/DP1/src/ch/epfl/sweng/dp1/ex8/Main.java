@@ -7,5 +7,7 @@ public class Main {
         course.start();
 
         // French course
+        Course fcourse = new FrenchCourse();
+        fcourse.start();
     }
 }

@@ -1,7 +1,6 @@
 package ch.epfl.sweng.dp1.ex3;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class DataStore {
     private String data;

@@ -5,4 +5,5 @@ package ch.epfl.sweng.dp1.ex6;
  */
 public interface House {
     Member createMember();
+    Bastard createBastard();
 }
