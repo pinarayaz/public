@@ -7,14 +7,13 @@ import ch.epfl.sweng.Main;
 import ch.epfl.sweng.NameBook;
 import org.junit.Test;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
+import java.io.*;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 
 public final class NameBookTests {
+
     @Test
     public void main() throws IOException {
         System.out.println(new File(".").getAbsolutePath());
@@ -26,5 +25,32 @@ public final class NameBookTests {
 
         assertEquals(1, nb.findFriends("bob", 1).size());
         assertEquals(2, nb.findFriends("bob", 2).size());
+    }
+
+    @Test
+    public void testFindPerson() throws IOException {
+        System.out.println(new File(".").getAbsolutePath());
+        List<String[]> friends = Main.readFriends(new FileInputStream("friends.txt"));
+        NameBook nb = new NameBook(friends);
+
+        assertEquals("alice", nb.findPerson("alice").getData());
+    }
+
+    @Test
+    public void testPrintFriendships() throws IOException {
+        System.out.println(new File(".").getAbsolutePath());
+        List<String[]> friends = Main.readFriends(new FileInputStream("friends.txt"));
+        NameBook nb = new NameBook(friends);
+
+        String expected = "alice\n" +
+                "- bob\n" +
+                "- carol\n" +
+                "- ted\n" +
+                "bob\n" +
+                "- ted\n" +
+                "ted\n" +
+                "- carol";
+
+        assertEquals(expected, nb.printFriendships());
     }
 }

@@ -1,9 +1,11 @@
 package ch.epfl.sweng;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.NoSuchElementException;
 
-public final class GraphNode<D> {
+public final class GraphNode<D> implements IGraphElement<D>{
     private final List<GraphNode<D>> successors;
     private D data;
 
@@ -38,12 +40,47 @@ public final class GraphNode<D> {
      * The order in which they are returned is not specified.
      */
     public List<GraphEdge<D>> getForwardEdges() {
+        Iterator iterator = new GraphNodeIterator();
         List<GraphEdge<D>> edges = new ArrayList<>();
         
+        while(iterator.hasNext()){
+            edges.add(new GraphEdge<>(this, (GraphNode<D>)iterator.next()));
+        }
+
+        /*
         for (GraphNode<D> node : successors) {
             edges.add(new GraphEdge<>(this, node));
         }
+        */
         
         return edges;
+    }
+
+    @Override
+    public void accept(IGraphElementVisitor<D> visitor) {
+        visitor.visit(this);
+    }
+
+    public class GraphNodeIterator implements Iterator<GraphNode>{
+
+        private int position = 0;
+
+        @Override
+        public boolean hasNext() {
+            if(position < successors.size()){
+                return true;
+            }
+            return false;
+        }
+
+        @Override
+        public GraphNode next() {
+            if(this.hasNext()){
+                return successors.get(position++);
+            }
+            else{
+                throw new NoSuchElementException();
+            }
+        }
     }
 }

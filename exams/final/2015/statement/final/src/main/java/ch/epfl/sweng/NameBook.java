@@ -56,9 +56,12 @@ public final class NameBook {
      * <code>
      * Alice
      * - Bob
+     * - Ted
      * - Carol
      * Bob
      * - Ted
+     * Ted
+     * - Carol
      * </code>
      * (where Alice is friends with Bob and Carol, Bob is friends with Ted, and Carol and Ted are friendless)
      */
@@ -82,6 +85,10 @@ public final class NameBook {
 
     /** Prints the given person and their friends to the given stream. */
     private String printPerson(GraphNode<String> person) {
+        if(person.getForwardEdges().isEmpty()){
+            return "";
+        }
+
         List<String> friendNames = new ArrayList<>();
 
         for (GraphEdge<String> edge : person.getForwardEdges()) {
@@ -94,7 +101,7 @@ public final class NameBook {
         builder.append(person.getData()).append(System.lineSeparator());
 
         for (String name : friendNames) {
-            builder.append("- ").append(name);
+            builder.append("- ").append(name).append("\n");
         }
 
         return builder.toString();
